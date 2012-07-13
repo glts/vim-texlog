@@ -1,0 +1,24 @@
+texlog.vim
+----------
+
+Syntax highlighting and simple folding for TeX and LaTeX log files.
+
+This Vim syntax plugin introduces the filetype 'texlog'. This filetype is
+detected automatically for files with the .log extension and the usual magical
+first line:
+
+    This is .*TeX.*, Version .*
+
+Should filetype detection fail, you can set it yourself with ":setf texlog".
+
+Installation
+------------
+
+Move the syntax file into the ~/.vim/syntax directory and the filetype
+detection script into ~/.vim/ftdetect (you may have to create that first). On
+Windows, replace "~/.vim/" with "~\vimfiles\".
+
+With a plugin manager such as pathogen, the usual procedure applies:
+
+cd ~/.vim/bundle
+git clone git://github.com/glts/vim-texlog.git texlog
