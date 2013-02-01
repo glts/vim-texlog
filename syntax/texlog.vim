@@ -4,7 +4,7 @@
 " Last Change: 2013-02-01
 " GetLatestVimScripts: 0 0 :AutoInstall: texlog.vim
 
-if exists("b:current_syntax")
+if exists('b:current_syntax')
   finish
 endif
 
@@ -12,10 +12,10 @@ syntax case match
 syntax sync fromstart
 syntax spell notoplevel
 
-setlocal iskeyword+=@-@   " @ is in keywords
-setlocal iskeyword-=48-57 " digits are not in keywords
+setlocal iskeyword+=@-@     " @ is in keywords
+setlocal iskeyword-=48-57,_ " digits and underscore are not in keywords
 
-syn cluster texlogFileGroup contains=@texlogMessageGroup,texlogCS,texlogAssign,texlogPageNumber
+syn cluster texlogFileGroup contains=@texlogMessageGroup,texStatement,texSpecialChar,texlogPageNumber
 syn cluster texlogMessageGroup contains=texlogLaTeXInfo,texlogLaTeXWarning,texlogLaTeXError,texlogTeXError,texlogTeXWarning
 
 syn match texlogFirstline /^This is \S*TeX[^,]*, Version .\+$/ contains=texlogTeXDialect,texlogTeXVersion
@@ -33,13 +33,10 @@ syn region texlogFile matchgroup=texlogFileSection start=/(\(\f\+\.\f\+\|\f\+$\)
 " material gets its own syntax group.
 syn region texlogParen start=/(\(\f\+$\|\f\+\.\f\+\)\@!/ end=/)/ contained
 
-syn match texlogPageNumber /\[\d\+\n*]/ contained
+syn match texlogPageNumber   /\[\d\+\n*]/ contained
 
-" TODO These command sequences need improvement
-syn match texlogCS /\\\k\+\>/
-syn match texlogCS /\\\(\*\|\$\|+\|"\|-\)/
-
-syn match texlogAssign /^\\.\+\s*=\s*\\\(count\|box\|skip\|dimen\|toks\)\s*\d\+/ contained contains=texlogCS
+syn match texStatement       /\\\k\+/
+syn match texSpecialChar     /\\[-!-?[-`{-~]/
 
 syn match texlogLaTeXInfo    /^Document Class:/
 syn match texlogLaTeXInfo    /^LaTeX Font Info:/
@@ -52,7 +49,7 @@ syn match texlogLaTeXInfo    /^LaTeX Info:/
 syn match texlogLaTeXInfo    /^Class \w\+ Info:/
 syn match texlogLaTeXInfo    /^Package \w\+ Info:/
 
-syn region texlogTeXWarning matchgroup=texlogWarningLabel start=/^\(Over\|Under\)full \\\(h\|v\)box .\+$/ end=/^$/ contains=texlogCS
+syn region texlogTeXWarning matchgroup=texlogWarningLabel start=/^\(Over\|Under\)full \\\(h\|v\)box .\+$/ end=/^$/ contains=texStatement,texSpecialChar
 syn match texlogLaTeXWarning /^LaTeX Warning:/
 syn match texlogLaTeXWarning /^Class \w\+ Warning:/
 syn match texlogLaTeXWarning /^Package \w\+ Warning:/
@@ -62,22 +59,22 @@ syn match texlogLaTeXError   /^LaTeX Error:/
 syn match texlogLaTeXError   /^Class \w\+ Error:/
 syn match texlogLaTeXError   /^Package \w\+ Error:/
 
-" TODO Special TeX stuff
+" Special TeX stuff
 syn cluster texlogTeXTraceGroup contains=texlogTeXTracePara
-syn region texlogTeXTracePara start=/^\zs@firstpass$/ end=/^$/ contains=texlogCS,texlogTeXTracePass fold
+syn region texlogTeXTracePara start=/^\zs@firstpass$/ end=/^$/ contains=texStatement,texSpecialChar,texlogTeXTracePass fold
 syn match texlogTeXTracePass /@\(first\|second\)pass/
 
 syn region texlogLastline start=/^Output written on / start=/^No pages of output/ end=/\.$/
+
+hi def link texStatement       Statement
+hi def link texSpecialChar     Statement
 
 hi def link texlogFirstline    PreProc
 hi def link texlogTeXDialect   Type
 hi def link texlogTeXVersion   PreProc
 hi def link texlogJob          Special
 
-hi def link texlogPageNumber   Statement
-
-hi def link texlogCS           Constant
-hi def link texlogAssign       Normal
+hi def link texlogPageNumber   Constant
 
 hi def link texlogLaTeXInfo    Identifier
 hi def link texlogLaTeXWarning Constant
@@ -95,4 +92,4 @@ hi def link texlogFileSection  PreProc
 hi def link texlogTeXTracePara Normal
 hi def link texlogTeXTracePass Constant
 
-let b:current_syntax = "texlog"
+let b:current_syntax = 'texlog'
