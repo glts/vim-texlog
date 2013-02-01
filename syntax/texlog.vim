@@ -2,7 +2,7 @@
 " Language: TeX/LaTeX log
 " Maintainer: glts <676c7473@gmail.com>
 " Last Change: 2013-02-01
-" GetLatestVimScripts: 0 0 :AutoInstall: texlog.vim
+" GetLatestVimScripts: 4421 1 :AutoInstall: texlog.vim
 
 if exists('b:current_syntax')
   finish
