@@ -4,8 +4,8 @@ texlog.vim
 Syntax highlighting and simple folding for TeX and LaTeX log files.
 
 This Vim syntax plugin introduces the filetype 'texlog'. This filetype is
-detected automatically for files with the .log extension and the usual magical
-first line:
+detected automatically for files with the .log extension and the conventional
+magical first line:
 
     This is .*TeX.*, Version .*
 
